@@ -12,7 +12,7 @@ const offers = [
   },
   {
     company: 'Google',
-    image: '/googleoffer2.png',
+    image: '/googleoffer.png',
   },
   {
     company: 'Amazon',
@@ -20,7 +20,7 @@ const offers = [
   },
   {
     company: 'Meta',
-    image: '/metaoffer3.png',
+    image: '/metaoffer2.png',
   },
   {
     company: 'LinkedIn',
@@ -68,7 +68,8 @@ export default function SuccessfulStories() {
 
         <Grid 
           container 
-          spacing={3}
+          spacing={4}
+          justifyContent="center"
           sx={{
             maxWidth: '1200px',
             mx: 'auto',
@@ -78,15 +79,17 @@ export default function SuccessfulStories() {
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card
                 sx={{
+                  width: '100%',
                   height: 0,
-                  paddingTop: '75%', // 4:3 Aspect Ratio
+                  paddingTop: '133%', // 3:4 Aspect Ratio
                   position: 'relative',
-                  bgcolor: 'rgba(25, 25, 28, 0.8)',
-                  borderRadius: 3,
+                  bgcolor: 'transparent',
+                  borderRadius: 2,
                   overflow: 'hidden',
-                  transition: 'transform 0.3s ease-in-out',
+                  boxShadow: 'none',
+                  transition: 'transform 0.2s ease-in-out',
                   '&:hover': {
-                    transform: 'translateY(-4px)',
+                    transform: 'scale(1.02)',
                   },
                 }}
               >
@@ -101,7 +104,6 @@ export default function SuccessfulStories() {
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
-                    transition: 'transform 0.3s ease-in-out',
                   }}
                 />
               </Card>
