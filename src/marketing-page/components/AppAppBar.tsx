@@ -30,11 +30,23 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: '8px 12px',
 }));
 
+const scrollToSection = (sectionId: string) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
+  };
+
+  const handleNavClick = (sectionId: string) => {
+    scrollToSection(sectionId);
+    setOpen(false);
   };
 
   return (
@@ -53,23 +65,46 @@ export default function AppAppBar() {
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <Sitemark />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small">
+              <Button 
+                variant="text" 
+                color="info" 
+                size="small"
+                onClick={() => scrollToSection('features')}
+              >
                 Features
               </Button>
-              <Button variant="text" color="info" size="small">
+              <Button 
+                variant="text" 
+                color="info" 
+                size="small"
+                onClick={() => scrollToSection('testimonials')}
+              >
                 Testimonials
               </Button>
-              <Button variant="text" color="info" size="small">
+              <Button 
+                variant="text" 
+                color="info" 
+                size="small"
+                onClick={() => scrollToSection('highlights')}
+              >
                 Highlights
               </Button>
-              <Button variant="text" color="info" size="small">
+              <Button 
+                variant="text" 
+                color="info" 
+                size="small"
+                onClick={() => scrollToSection('pricing')}
+              >
                 Pricing
               </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
+              <Button 
+                variant="text" 
+                color="info" 
+                size="small" 
+                sx={{ minWidth: 0 }}
+                onClick={() => scrollToSection('faq')}
+              >
                 FAQ
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                Blog
               </Button>
             </Box>
           </Box>
@@ -115,12 +150,11 @@ export default function AppAppBar() {
                   </IconButton>
                 </Box>
 
-                <MenuItem>Features</MenuItem>
-                <MenuItem>Testimonials</MenuItem>
-                <MenuItem>Highlights</MenuItem>
-                <MenuItem>Pricing</MenuItem>
-                <MenuItem>FAQ</MenuItem>
-                <MenuItem>Blog</MenuItem>
+                <MenuItem onClick={() => handleNavClick('features')}>Features</MenuItem>
+                <MenuItem onClick={() => handleNavClick('testimonials')}>Testimonials</MenuItem>
+                <MenuItem onClick={() => handleNavClick('highlights')}>Highlights</MenuItem>
+                <MenuItem onClick={() => handleNavClick('pricing')}>Pricing</MenuItem>
+                <MenuItem onClick={() => handleNavClick('faq')}>FAQ</MenuItem>
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
                   <Button color="primary" variant="contained" fullWidth>

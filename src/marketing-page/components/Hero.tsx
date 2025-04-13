@@ -97,9 +97,7 @@ export default function Hero() {
               width: { sm: '100%', md: '80%' },
             }}
           >
-            Explore our cutting-edge dashboard, delivering high-quality solutions
-            tailored to your needs. Elevate your experience with top-tier features
-            and services.
+            You can use our most advanced AI to pass the SWE interview and land your FAANG dream.
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
