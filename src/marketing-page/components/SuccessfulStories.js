@@ -7,28 +7,12 @@ import Typography from '@mui/material/Typography';
 
 const offers = [
   {
-    company: 'Meta',
-    image: '/metaoffer.png',
+    company: 'Offer Collection 1',
+    image: '/offercollection1.png',
   },
   {
-    company: 'Google',
-    image: '/googleoffer.png',
-  },
-  {
-    company: 'Amazon',
-    image: '/amazonoffer.png',
-  },
-  {
-    company: 'Meta',
-    image: '/metaoffer2.png',
-  },
-  {
-    company: 'LinkedIn',
-    image: '/linkedinoffer.png',
-  },
-  {
-    company: 'TikTok',
-    image: '/tiktokoffer.png',
+    company: 'Offer Collection 2',
+    image: '/offercollection2.png',
   },
 ];
 
@@ -76,12 +60,11 @@ export default function SuccessfulStories() {
           }}
         >
           {offers.map((offer, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid item xs={12} key={index}>
               <Card
                 sx={{
                   width: '100%',
-                  height: 0,
-                  paddingTop: '133%', // 3:4 Aspect Ratio
+                  height: 'auto',
                   position: 'relative',
                   bgcolor: 'transparent',
                   borderRadius: 2,
@@ -98,12 +81,9 @@ export default function SuccessfulStories() {
                   src={offer.image}
                   alt={`${offer.company} offer`}
                   sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
                     width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
+                    height: 'auto',
+                    objectFit: 'contain',
                   }}
                 />
               </Card>
