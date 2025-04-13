@@ -74,7 +74,7 @@ export default function Hero() {
               fontSize: 'clamp(3rem, 10vw, 3.5rem)',
             }}
           >
-            Our&nbsp;latest&nbsp;
+            Land&nbsp;your&nbsp;
             <Typography
               component="span"
               variant="h1"
@@ -86,8 +86,9 @@ export default function Hero() {
                 }),
               })}
             >
-              products
+              FAANG
             </Typography>
+            &nbsp;offer
           </Typography>
           <Typography
             sx={{
