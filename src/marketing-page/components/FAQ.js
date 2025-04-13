@@ -1,150 +1,151 @@
 import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { styled } from '@mui/material/styles';
+
+const QuestionBox = styled(Box)(({ theme }) => ({
+  padding: '20px',
+  borderRadius: '12px',
+  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  marginBottom: '12px',
+  cursor: 'pointer',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  transition: 'background-color 0.3s ease',
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  },
+}));
+
+const ExpandIcon = styled(KeyboardArrowDownIcon)(({ isOpen }) => ({
+  transform: isOpen ? 'rotate(180deg)' : 'rotate(0)',
+  transition: 'transform 0.3s ease',
+}));
+
+const AnswerBox = styled(Box)(({ theme, isOpen }) => ({
+  padding: isOpen ? '16px 20px' : '0 20px',
+  maxHeight: isOpen ? '200px' : '0',
+  overflow: 'hidden',
+  transition: 'all 0.3s ease',
+  opacity: isOpen ? 1 : 0,
+}));
 
 export default function FAQ() {
-  const [expanded, setExpanded] = React.useState([]);
+  const [openQuestion, setOpenQuestion] = React.useState(null);
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(
-      isExpanded ? [...expanded, panel] : expanded.filter((item) => item !== panel),
-    );
+  const questions = [
+    {
+      question: 'Is Interview Coder free?',
+      answer: 'No. In exchange, you get access to the absolute invisible AI assistant that can help you solve the code problem and land your FAANG dream.'
+    },
+    
+    {
+      question: 'What programming languages are supported?',
+      answer: 'Python, Golang, C#, Rust, R, SQL, Ruby, Java, Javascript, C++, Kotlin, and Swift. You can edit your preferred language in the app or in your settings.'
+    },
+    
+    {
+      question: "I'm experiencing a bug, what should I do",
+      answer: '9 times out of 10, you can uninstall and reinstall the app from this website. If that doesnt work, please email us and we will get back to you within 24 hours.'
+    },
+    {
+      question: 'Does the app work with current Zoom versions?',
+      answer: 'Yes, Interview Coder is regularly updated to maintain compatibility with the latest versions of Zoom and other video conferencing platforms.'
+    },
+    {
+      question: 'I got a FAANG offer using your software. Is there any reward? ',
+      answer: 'Yes, if you got a FAANG offer use Crack with Code, please email us your offer letter and we will send you a reward(up to $400).'
+    }
+  ];
+
+  const handleQuestionClick = (index) => {
+    setOpenQuestion(openQuestion === index ? null : index);
   };
 
   return (
-    <Container
-      id="faq"
+    <Box
       sx={{
-        pt: { xs: 4, sm: 12 },
-        pb: { xs: 8, sm: 16 },
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: { xs: 3, sm: 6 },
+        bgcolor: 'black',
+        color: 'white',
+        py: 8,
+        minHeight: '100vh',
       }}
     >
-      <Typography
-        component="h2"
-        variant="h4"
-        sx={{
-          color: 'text.primary',
-          width: { sm: '100%', md: '60%' },
-          textAlign: { sm: 'left', md: 'center' },
-        }}
-      >
-        Frequently asked questions
-      </Typography>
-      <Box sx={{ width: '100%' }}>
-        <Accordion
-          expanded={expanded.includes('panel1')}
-          onChange={handleChange('panel1')}
+      <Container maxWidth="md">
+        <Typography
+          variant="h2"
+          component="h2"
+          sx={{
+            textAlign: 'center',
+            mb: 2,
+            fontSize: { xs: '2.5rem', md: '3.5rem' },
+            color: 'grey.300'
+          }}
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1d-content"
-            id="panel1d-header"
-          >
-            <Typography component="span" variant="subtitle2">
-              How do I contact customer support if I have a question or issue?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: { sm: '100%', md: '70%' } }}
-            >
-              You can reach our customer support team by emailing&nbsp;
-              <Link href="mailto:support@email.com">support@email.com</Link>
-              &nbsp;or calling our toll-free number. We&apos;re here to assist you
-              promptly.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded.includes('panel2')}
-          onChange={handleChange('panel2')}
+          Common Questions
+        </Typography>
+        <Typography
+          variant="h6"
+          component="p"
+          sx={{
+            textAlign: 'center',
+            mb: 6,
+            color: 'grey.500'
+          }}
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2d-content"
-            id="panel2d-header"
-          >
-            <Typography component="span" variant="subtitle2">
-              Can I return the product if it doesn&apos;t meet my expectations?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
+          Everything you need to know about Interview Coder.
+        </Typography>
+
+        {questions.map((item, index) => (
+          <div key={index}>
+            <QuestionBox onClick={() => handleQuestionClick(index)}>
+              <Typography
+                variant="h6"
+                component="h3"
+                sx={{
+                  fontSize: '1.1rem',
+                  fontWeight: 'normal'
+                }}
+              >
+                {item.question}
+              </Typography>
+              <ExpandIcon isOpen={openQuestion === index} />
+            </QuestionBox>
+            <AnswerBox isOpen={openQuestion === index}>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'grey.400'
+                }}
+              >
+                {item.answer}
+              </Typography>
+            </AnswerBox>
+          </div>
+        ))}
+
+        <Box sx={{ textAlign: 'center', mt: 6 }}>
+          <Typography variant="body1" sx={{ color: 'grey.500' }}>
+            Have more questions? Visit our{' '}
             <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: { sm: '100%', md: '70%' } }}
+              component="span"
+              sx={{
+                color: '#FFD700',
+                cursor: 'pointer',
+                '&:hover': {
+                  textDecoration: 'underline',
+                },
+              }}
             >
-              Absolutely! We offer a hassle-free return policy. If you&apos;re not
-              completely satisfied, you can return the product within [number of
-              days] days for a full refund or exchange.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded.includes('panel3')}
-          onChange={handleChange('panel3')}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3d-content"
-            id="panel3d-header"
-          >
-            <Typography component="span" variant="subtitle2">
-              What makes your product stand out from others in the market?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: { sm: '100%', md: '70%' } }}
-            >
-              Our product distinguishes itself through its adaptability, durability,
-              and innovative features. We prioritize user satisfaction and
-              continually strive to exceed expectations in every aspect.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded.includes('panel4')}
-          onChange={handleChange('panel4')}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel4d-content"
-            id="panel4d-header"
-          >
-            <Typography component="span" variant="subtitle2">
-              Is there a warranty on the product, and what does it cover?
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ maxWidth: { sm: '100%', md: '70%' } }}
-            >
-              Yes, our product comes with a [length of warranty] warranty. It covers
-              defects in materials and workmanship. If you encounter any issues
-              covered by the warranty, please contact our customer support for
-              assistance.
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-      </Box>
-    </Container>
+              help center
+            </Typography>{' '}
+            for detailed guides and support.
+          </Typography>
+        </Box>
+      </Container>
+    </Box>
   );
 }
