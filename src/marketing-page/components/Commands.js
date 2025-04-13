@@ -69,30 +69,17 @@ export default function Commands() {
       </Box>
       <Grid container spacing={3} alignItems="stretch">
         {commands.map((command, index) => (
-          <Grid 
-            item 
-            xs={12} 
-            md={4} 
-            key={index}
-            sx={{
-              display: 'flex',
-            }}
-          >
+          <Grid item xs={12} md={4} key={index}>
             <Card
               sx={{
-                width: '100%',
-                height: '220px',
+                height: '100%',
                 p: 3,
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
-                bgcolor: 'rgba(25, 25, 28, 0.8)',
+                bgcolor: 'rgba(0, 0, 0, 0.8)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '16px',
-                '&:hover': {
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  bgcolor: 'rgba(35, 35, 38, 0.8)',
-                },
+                borderRadius: 2,
               }}
             >
               <Box
@@ -101,7 +88,7 @@ export default function Commands() {
                   gap: 1,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: '44px',
+                  mb: 2,
                 }}
               >
                 {command.shortcut.map((key, keyIndex) => (
@@ -109,60 +96,32 @@ export default function Commands() {
                     <Box
                       sx={{
                         bgcolor: 'rgba(255, 255, 255, 0.1)',
-                        borderRadius: '8px',
-                        px: 1.5,
-                        py: 0.75,
-                        minWidth: key.length > 1 ? 'auto' : '32px',
-                        height: '32px',
+                        borderRadius: 1,
+                        px: 2,
+                        py: 1,
+                        minWidth: key.length > 1 ? 'auto' : '36px',
+                        height: '36px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}
                     >
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
-                          fontSize: '14px',
-                          fontWeight: 500,
-                        }}
-                      >
-                        {key}
-                      </Typography>
+                      <Typography variant="body2">{key}</Typography>
                     </Box>
                     {keyIndex < command.shortcut.length - 1 && (
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
-                          color: 'grey.500',
-                          fontSize: '14px',
-                        }}
-                      >
+                      <Typography variant="body2" sx={{ color: 'grey.500' }}>
                         +
                       </Typography>
                     )}
                   </React.Fragment>
                 ))}
               </Box>
-              <Typography 
-                variant="h6" 
-                component="h3" 
-                sx={{ 
-                  mb: 1,
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  textAlign: 'center',
-                }}
-              >
+              <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
                 {command.title}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ 
-                  color: 'grey.400',
-                  fontSize: '14px',
-                  textAlign: 'center',
-                  lineHeight: 1.5,
-                }}
+                sx={{ color: 'grey.400', flexGrow: 1 }}
               >
                 {command.description}
               </Typography>

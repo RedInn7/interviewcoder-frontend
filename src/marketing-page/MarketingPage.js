@@ -12,6 +12,7 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Commands from './components/Commands';
+import SuccessfulStories from './components/SuccessfulStories';
 
 export default function MarketingPage(props) {
   return (
@@ -28,6 +29,8 @@ export default function MarketingPage(props) {
         <Highlights />
         <Divider />
         <Commands />
+        <Divider />
+        <SuccessfulStories />
         <Divider />
         <Pricing />
         <Divider />
