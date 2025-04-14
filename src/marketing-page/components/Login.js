@@ -6,9 +6,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
-import AppTheme from '../../shared-theme/AppTheme';
 import AppAppBar from './AppAppBar';
-import CssBaseline from '@mui/material/CssBaseline';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
@@ -142,11 +140,6 @@ export default function Login() {
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log('Google login success:', tokenResponse);
-      // Here you would typically:
-      // 1. Send the access token to your backend
-      // 2. Get user info from Google
-      // 3. Create or update user in your database
-      // 4. Navigate to the dashboard or home page
       try {
         const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: {
@@ -155,8 +148,6 @@ export default function Login() {
         });
         const userInfo = await userInfoResponse.json();
         console.log('User info:', userInfo);
-        // TODO: Send user info to your backend
-        // navigate('/dashboard');
       } catch (error) {
         console.error('Error fetching user info:', error);
       }
@@ -167,8 +158,7 @@ export default function Login() {
   });
 
   return (
-    <AppTheme>
-      <CssBaseline />
+    <>
       <AppAppBar />
       <Box sx={{ mt: 8 }}>
         <Container
@@ -282,6 +272,6 @@ export default function Login() {
           </Box>
         </Container>
       </Box>
-    </AppTheme>
+    </>
   );
 } 

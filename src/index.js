@@ -7,32 +7,23 @@ import reportWebVitals from './reportWebVitals';
 import MarketingPage from "./marketing-page/MarketingPage";
 import Login from './marketing-page/components/Login';
 import SignUp from './marketing-page/components/SignUp';
-import AppAppBar from './marketing-page/components/AppAppBar';
-import Box from '@mui/material/Box';
-
-// Layout component that includes the AppBar
-function Layout({ children }) {
-  return (
-    <Box>
-      <AppAppBar />
-      {children}
-    </Box>
-  );
-}
+import AppTheme from './shared-theme/AppTheme';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId="488907926930-a14hq5rnugcmgu1rhd9rudkgsgokvvt2.apps.googleusercontent.com">
-      <BrowserRouter>
-        <Layout>
+      <AppTheme>
+        <CssBaseline />
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<MarketingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
           </Routes>
-        </Layout>
-      </BrowserRouter>
+        </BrowserRouter>
+      </AppTheme>
     </GoogleOAuthProvider>
   </React.StrictMode>
 );
