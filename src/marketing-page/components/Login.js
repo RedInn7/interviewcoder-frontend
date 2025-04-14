@@ -157,7 +157,7 @@ export default function Login() {
         {/* Logo and Title */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <img
-            src="/amazonoffer.png"
+            src="/offer.png"
             alt="Interview Coder"
             style={{ width: 64, height: 64, marginBottom: 16 }}
           />
