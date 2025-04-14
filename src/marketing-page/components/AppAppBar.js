@@ -109,7 +109,7 @@ export default function AppAppBar() {
             }}
           >
             <Button color="primary" variant="text" size="small">
-              Sign in
+              Login
             </Button>
             <Button color="primary" variant="contained" size="small">
               Sign up
@@ -156,7 +156,7 @@ export default function AppAppBar() {
                 </MenuItem>
                 <MenuItem>
                   <Button color="primary" variant="outlined" fullWidth>
-                    Sign in
+                    Login
                   </Button>
                 </MenuItem>
               </Box>
