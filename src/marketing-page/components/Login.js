@@ -11,15 +11,16 @@ import AppAppBar from './AppAppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
+import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 
 // Styled components
-const StyledTextField = styled(TextField)({
+const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-root': {
-    color: 'white',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    color: theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.common.black,
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
     borderRadius: '8px',
     '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
     },
   },
   '& .MuiInputBase-input': {
@@ -27,16 +28,16 @@ const StyledTextField = styled(TextField)({
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: 'rgba(255, 255, 255, 0.1)',
+      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
     },
     '&:hover fieldset': {
-      borderColor: 'rgba(255, 255, 255, 0.2)',
+      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
     },
     '&.Mui-focused fieldset': {
-      borderColor: 'rgba(255, 255, 255, 0.3)',
+      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
     },
   },
-});
+}));
 
 const StyledButton = styled(Button)(({ theme, variant }) => ({
   borderRadius: '8px',
@@ -45,10 +46,10 @@ const StyledButton = styled(Button)(({ theme, variant }) => ({
   fontSize: '1rem',
   textTransform: 'none',
   ...(variant === 'contained' && {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    color: 'black',
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.9)' : theme.palette.primary.main,
+    color: theme.palette.mode === 'dark' ? 'black' : 'white',
     '&:hover': {
-      backgroundColor: 'white',
+      backgroundColor: theme.palette.mode === 'dark' ? 'white' : theme.palette.primary.dark,
     },
   }),
 }));
@@ -178,8 +179,6 @@ export default function Login() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            bgcolor: 'black',
-            color: 'white',
             py: 4,
           }}
         >
@@ -190,8 +189,14 @@ export default function Login() {
               display: 'flex',
               flexDirection: 'column',
               gap: 3,
+              position: 'relative',
             }}
           >
+            {/* Color Mode Toggle */}
+            <Box sx={{ position: 'absolute', top: -48, right: 0 }}>
+              <ColorModeIconDropdown />
+            </Box>
+
             {/* Logo and Title */}
             <Box sx={{ textAlign: 'center', mb: 4 }}>
               <img
