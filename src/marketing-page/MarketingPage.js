@@ -13,6 +13,7 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Commands from './components/Commands';
 import SuccessfulStories from './components/SuccessfulStories';
+import CodeSolution from './components/CodeSolution';
 
 export default function MarketingPage(props) {
   return (
@@ -23,6 +24,8 @@ export default function MarketingPage(props) {
       <div>
         <LogoCollection />
         <Features />
+        <Divider />
+        <CodeSolution />
         <Divider />
         <Testimonials />
         <Divider />
