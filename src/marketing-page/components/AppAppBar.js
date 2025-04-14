@@ -12,6 +12,7 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
+import { Link } from 'react-router-dom';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -63,17 +64,27 @@ export default function AppAppBar() {
         <StyledToolbar variant="dense" disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <Box
-              component="img"
-              src="/offer.png"
-              alt="Interview Coder"
+              component={Link}
+              to="/"
               sx={{
-                height: 32,
-                width: 32,
-                mr: 2,
                 display: 'flex',
                 alignItems: 'center',
+                textDecoration: 'none',
               }}
-            />
+            >
+              <Box
+                component="img"
+                src="/offer.png"
+                alt="Interview Coder"
+                sx={{
+                  height: 32,
+                  width: 32,
+                  mr: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              />
+            </Box>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button 
                 variant="text" 
@@ -118,7 +129,13 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small">
+            <Button
+              component={Link}
+              to="/login"
+              color="primary"
+              variant="text"
+              size="small"
+            >
               Login
             </Button>
             <Button color="primary" variant="contained" size="small">
@@ -165,7 +182,14 @@ export default function AppAppBar() {
                   </Button>
                 </MenuItem>
                 <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
+                  <Button
+                    component={Link}
+                    to="/login"
+                    color="primary"
+                    variant="outlined"
+                    fullWidth
+                    onClick={toggleDrawer(false)}
+                  >
                     Login
                   </Button>
                 </MenuItem>
