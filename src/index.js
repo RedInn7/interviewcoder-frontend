@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import MarketingPage from "./marketing-page/MarketingPage";
 import Login from './marketing-page/components/Login';
+import SignUp from './marketing-page/components/SignUp';
 import AppAppBar from './marketing-page/components/AppAppBar';
 import Box from '@mui/material/Box';
 
@@ -26,6 +27,7 @@ root.render(
         <Routes>
           <Route path="/" element={<MarketingPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Layout>
     </BrowserRouter>
