@@ -5,15 +5,29 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import MarketingPage from "./marketing-page/MarketingPage";
 import Login from './marketing-page/components/Login';
+import AppAppBar from './marketing-page/components/AppAppBar';
+import Box from '@mui/material/Box';
+
+// Layout component that includes the AppBar
+function Layout({ children }) {
+  return (
+    <Box>
+      <AppAppBar />
+      {children}
+    </Box>
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MarketingPage />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<MarketingPage />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   </React.StrictMode>
 );
