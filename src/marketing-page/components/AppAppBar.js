@@ -12,7 +12,6 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
-import Sitemark from './SitemarkIcon';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -63,7 +62,18 @@ export default function AppAppBar() {
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
-            <Sitemark />
+            <Box
+              component="img"
+              src="/offer.png"
+              alt="Interview Coder"
+              sx={{
+                height: 32,
+                width: 32,
+                mr: 2,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button 
                 variant="text" 

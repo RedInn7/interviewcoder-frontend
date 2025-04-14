@@ -162,7 +162,7 @@ export default function Login() {
             style={{ width: 64, height: 64, marginBottom: 16 }}
           />
           <Typography variant="h4" component="h1" sx={{ fontWeight: 600 }}>
-            Log in to Interview Coder
+            Log in
           </Typography>
         </Box>
 
