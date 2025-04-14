@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 import Commands from './components/Commands';
 import SuccessfulStories from './components/SuccessfulStories';
 import CodeSolution from './components/CodeSolution';
-
+import Login from './components/Login';
 export default function MarketingPage(props) {
   return (
     <AppTheme {...props}>
@@ -24,7 +24,8 @@ export default function MarketingPage(props) {
         <LogoCollection />
         {/* <Features />*/}
         <Divider />
-
+        <Login />
+        <Divider />
         <SuccessfulStories />
         <Divider />
         <CodeSolution />
