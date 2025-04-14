@@ -23,7 +23,7 @@ function Layout({ children }) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+    <GoogleOAuthProvider clientId="488907926930-a14hq5rnugcmgu1rhd9rudkgsgokvvt2.apps.googleusercontent.com">
       <BrowserRouter>
         <Layout>
           <Routes>
