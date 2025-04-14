@@ -73,14 +73,7 @@ export default function AppAppBar() {
               >
                 Features
               </Button>
-              <Button 
-                variant="text" 
-                color="info" 
-                size="small"
-                onClick={() => scrollToSection('testimonials')}
-              >
-                Testimonials
-              </Button>
+              
               <Button 
                 variant="text" 
                 color="info" 

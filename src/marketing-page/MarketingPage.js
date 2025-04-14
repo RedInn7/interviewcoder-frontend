@@ -27,7 +27,6 @@ export default function MarketingPage(props) {
         <Divider />
         <CodeSolution />
         <Divider />
-        <Testimonials />
         <Divider />
         <Highlights />
         <Divider />

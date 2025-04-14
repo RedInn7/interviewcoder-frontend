@@ -46,7 +46,7 @@ export default function SuccessfulStories() {
               mx: 'auto',
             }}
           >
-            Our users have landed offers at top tech companies worldwide.
+            Watch me use Crack With Code to get 6  SWE intern offer from Google, Meta, Amazon, and other top companies.
           </Typography>
         </Box>
 
