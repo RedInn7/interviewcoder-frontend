@@ -38,7 +38,7 @@ export default function FAQ() {
 
   const questions = [
     {
-      question: 'Is Interview Coder free?',
+      question: 'Is Crack With Code free?',
       answer: 'No. In exchange, you get access to the absolute invisible AI assistant that can help you solve the code problem and land your FAANG dream.'
     },
     
@@ -53,7 +53,7 @@ export default function FAQ() {
     },
     {
       question: 'Does the app work with current Zoom versions?',
-      answer: 'Yes, Interview Coder is regularly updated to maintain compatibility with the latest versions of Zoom and other video conferencing platforms.'
+      answer: 'Yes, Crack with Code is regularly updated to maintain compatibility with the latest versions of Zoom and other video conferencing platforms.'
     },
     {
       question: 'I got a FAANG offer using your software. Is there any reward? ',
@@ -74,7 +74,7 @@ export default function FAQ() {
         minHeight: '100vh',
       }}
     >
-      <Container maxWidth="md">
+      <Container id="faq" maxWidth="md">
         <Typography
           variant="h2"
           component="h2"
@@ -85,7 +85,7 @@ export default function FAQ() {
             color: 'grey.300'
           }}
         >
-          Common Questions
+          FAQ
         </Typography>
         <Typography
           variant="h6"
@@ -96,7 +96,7 @@ export default function FAQ() {
             color: 'grey.500'
           }}
         >
-          Everything you need to know about Interview Coder.
+          Everything you need to know about Crack With Code.
         </Typography>
 
         {questions.map((item, index) => (

@@ -13,7 +13,7 @@ export default function LogoCollection() {
         align="center"
         sx={{ color: 'text.secondary' }}
       >
-        Invisible by all softwares, Don't worry about your interviewer finding out.
+        Invisible by all softwares
       </Typography>
       <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 1 }}>
         <img

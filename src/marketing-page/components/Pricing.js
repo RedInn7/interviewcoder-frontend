@@ -9,7 +9,7 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 
 const tiers = [
   {
-    title: 'Interview Coder',
+    title: 'Crack With Code',
     highlight: 'Free',
     subtitle: 'Try it and see',
     price: '0',
@@ -22,7 +22,7 @@ const tiers = [
     buttonVariant: 'contained',
   },
   {
-    title: 'Interview Coder',
+    title: 'Crack With Code',
     highlight: 'Pro',
     subtitle: 'Most popular',
     price: '25',
@@ -39,7 +39,7 @@ const tiers = [
     featured: true,
   },
   {
-    title: 'Interview Coder',
+    title: 'Crack With Code',
     highlight: 'Pro',
     subtitle: 'Monthly subscription',
     price: '60',

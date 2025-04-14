@@ -69,9 +69,9 @@ export default function AppAppBar() {
                 variant="text" 
                 color="info" 
                 size="small"
-                onClick={() => scrollToSection('features')}
+                onClick={() => scrollToSection('successful-stories')}
               >
-                Features
+                Successful Stories
               </Button>
               
               <Button 

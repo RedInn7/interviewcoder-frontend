@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 const commands = [
   {
     title: 'Hide/Show Window',
-    description: 'Hide or show Interview Coder',
+    description: 'Hide or show app',
     shortcut: ['⌘', 'B'],
   },
   {
@@ -61,7 +61,7 @@ export default function Commands() {
         }}
       >
         <Typography component="h2" variant="h2" sx={{ mb: 1 }}>
-          Commands we love
+        Shortcut key
         </Typography>
         <Typography variant="body1" sx={{ color: 'grey.400' }}>
           These commands are designed to be natural and easy to remember.

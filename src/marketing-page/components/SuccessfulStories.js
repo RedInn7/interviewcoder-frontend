@@ -25,7 +25,7 @@ export default function SuccessfulStories() {
         px: 3,
       }}
     >
-      <Container maxWidth="lg">
+      <Container id="successful-stories" maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
           <Typography
             component="h2"
