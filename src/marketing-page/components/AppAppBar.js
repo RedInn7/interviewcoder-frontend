@@ -13,6 +13,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import { Link } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
+import { supabase } from '../../config/supabase';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -39,6 +41,31 @@ const scrollToSection = (sectionId) => {
 
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
+  const [user, setUser] = React.useState(null);
+
+  React.useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data?.user);
+    });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
+
+  const getInitials = (user) => {
+    if (!user) return '';
+    const name = user.user_metadata?.name;
+    if (name && name.length >= 2) {
+      return name.slice(0, 2).toUpperCase();
+    }
+    if (user.email) {
+      return user.email.slice(0, 2).toUpperCase();
+    }
+    return '';
+  };
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -94,7 +121,6 @@ export default function AppAppBar() {
               >
                 Successful Stories
               </Button>
-              
               <Button 
                 variant="text" 
                 color="info" 
@@ -129,24 +155,30 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button
-              component={Link}
-              to="/login"
-              color="primary"
-              variant="text"
-              size="small"
-            >
-              Login
-            </Button>
-            <Button
-              component={Link}
-              to="/signup"
-              color="primary"
-              variant="contained"
-              size="small"
-            >
-            Sign up
-            </Button>
+            {!user ? (
+              <>
+                <Button
+                  component={Link}
+                  to="/login"
+                  color="primary"
+                  variant="text"
+                  size="small"
+                >
+                  Login
+                </Button>
+                <Button
+                  component={Link}
+                  to="/signup"
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                >
+                  Sign up
+                </Button>
+              </>
+            ) : (
+              <Avatar sx={{ bgcolor: 'primary.main' }}>{getInitials(user)}</Avatar>
+            )}
             <ColorModeIconDropdown />
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
@@ -175,7 +207,6 @@ export default function AppAppBar() {
                     <CloseRoundedIcon />
                   </IconButton>
                 </Box>
-
                 <MenuItem onClick={() => handleNavClick('features')}>Features</MenuItem>
                 <MenuItem onClick={() => handleNavClick('testimonials')}>Testimonials</MenuItem>
                 <MenuItem onClick={() => handleNavClick('highlights')}>Highlights</MenuItem>
@@ -183,7 +214,13 @@ export default function AppAppBar() {
                 <MenuItem onClick={() => handleNavClick('faq')}>FAQ</MenuItem>
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
+                  <Button
+                    component={Link}
+                    to="/signup"
+                    color="primary"
+                    variant="contained"
+                    fullWidth
+                  >
                     Sign up
                   </Button>
                 </MenuItem>
