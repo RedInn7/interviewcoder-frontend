@@ -9,6 +9,8 @@ import Login from './marketing-page/components/Login';
 import SignUp from './marketing-page/components/SignUp';
 import AppTheme from './shared-theme/AppTheme';
 import CssBaseline from '@mui/material/CssBaseline';
+import Success from './marketing-page/components/Success';
+import Cancel from './marketing-page/components/Cancel';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +23,8 @@ root.render(
             <Route path="/" element={<MarketingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/cancel" element={<Cancel />} />
           </Routes>
         </BrowserRouter>
       </AppTheme>
