@@ -7,9 +7,10 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
 import AppAppBar from './AppAppBar';
-import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
+import { supabase } from '../../config/supabase';
+import { useState } from 'react';
 
 // Styled components
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -136,26 +137,51 @@ const GoogleButton = styled('button')({
 
 export default function Login() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log('Google login success:', tokenResponse);
-      try {
-        const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: {
-            Authorization: `Bearer ${tokenResponse.access_token}`,
-          },
-        });
-        const userInfo = await userInfoResponse.json();
-        console.log('User info:', userInfo);
-      } catch (error) {
-        console.error('Error fetching user info:', error);
-      }
-    },
-    onError: (errorResponse) => {
-      console.error('Google login failed:', errorResponse);
-    },
-  });
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      
+      if (error) throw error;
+    } catch (error) {
+      setError(error.message);
+      console.error('Error logging in with Google:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEmailLogin = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setError(null);
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+      // 登录成功后重定向到仪表板
+      navigate('/dashboard');
+    } catch (error) {
+      setError(error.message);
+      console.error('Error logging in with email:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -199,10 +225,17 @@ export default function Login() {
               </Typography>
             </Box>
 
+            {error && (
+              <Typography color="error" variant="body2" sx={{ textAlign: 'center' }}>
+                {error}
+              </Typography>
+            )}
+
             {/* Google Sign In Button */}
             <GoogleButton
               className="gsi-material-button"
-              onClick={() => googleLogin()}
+              onClick={handleGoogleLogin}
+              disabled={loading}
             >
               <div className="gsi-material-button-state"></div>
               <div className="gsi-material-button-content-wrapper">
@@ -215,43 +248,58 @@ export default function Login() {
                     <path fill="none" d="M0 0h48v48H0z"></path>
                   </svg>
                 </div>
-                <span className="gsi-material-button-contents">使用 Google 账号登录</span>
-                <span style={{ display: 'none' }}>使用 Google 账号登录</span>
+                <span className="gsi-material-button-contents">
+                  {loading ? '登录中...' : '使用 Google 账号登录'}
+                </span>
               </div>
             </GoogleButton>
 
             {/* Divider */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Divider sx={{ flex: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
-              <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+              <Divider sx={{ flex: 1 }} />
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 OR CONTINUE WITH EMAIL
               </Typography>
-              <Divider sx={{ flex: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+              <Divider sx={{ flex: 1 }} />
             </Box>
 
             {/* Email & Password Fields */}
-            <StyledTextField
-              fullWidth
-              placeholder="Email address"
-              type="email"
-            />
-            <StyledTextField
-              fullWidth
-              placeholder="Password"
-              type="password"
-            />
-
-            {/* Sign In Button */}
-            <StyledButton variant="contained">
-              Sign in
-            </StyledButton>
+            <form onSubmit={handleEmailLogin} style={{ width: '100%' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <StyledTextField
+                  fullWidth
+                  placeholder="Email address"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                  required
+                />
+                <StyledTextField
+                  fullWidth
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                  required
+                />
+                <StyledButton 
+                  variant="contained"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? 'Signing in...' : 'Sign in'}
+                </StyledButton>
+              </Box>
+            </form>
 
             {/* Sign Up Link */}
             <Typography
               variant="body2"
               sx={{
                 textAlign: 'center',
-                color: 'rgba(255, 255, 255, 0.7)',
+                color: 'text.secondary',
               }}
             >
               Don't have an account?{' '}
@@ -259,7 +307,7 @@ export default function Login() {
                 component="a"
                 href="/signup"
                 sx={{
-                  color: 'white',
+                  color: 'primary.main',
                   textDecoration: 'none',
                   '&:hover': {
                     textDecoration: 'underline',
