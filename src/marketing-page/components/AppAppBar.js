@@ -15,6 +15,8 @@ import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import { supabase } from '../../config/supabase';
+import Menu from '@mui/material/Menu';
+import Typography from '@mui/material/Typography';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -42,6 +44,7 @@ const scrollToSection = (sectionId) => {
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
   const [user, setUser] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   React.useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -74,6 +77,18 @@ export default function AppAppBar() {
   const handleNavClick = (sectionId) => {
     scrollToSection(sectionId);
     setOpen(false);
+  };
+
+  // 头像菜单相关
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    handleMenuClose();
   };
 
   return (
@@ -177,7 +192,34 @@ export default function AppAppBar() {
                 </Button>
               </>
             ) : (
-              <Avatar sx={{ bgcolor: 'primary.main' }}>{getInitials(user)}</Avatar>
+              <>
+                <IconButton onClick={handleAvatarClick} size="small" sx={{ p: 0 }}>
+                  <Avatar sx={{ bgcolor: 'primary.main' }}>{getInitials(user)}</Avatar>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                  PaperProps={{
+                    sx: {
+                      mt: 1.5,
+                      minWidth: 180,
+                      borderRadius: 3,
+                      bgcolor: 'background.paper',
+                      boxShadow: 3,
+                    },
+                  }}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Help</MenuItem>
+                  <Divider />
+                  <MenuItem onClick={handleLogout}>
+                    <Typography color="error.main">Log out</Typography>
+                  </MenuItem>
+                </Menu>
+              </>
             )}
             <ColorModeIconDropdown />
           </Box>
