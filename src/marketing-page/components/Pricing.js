@@ -76,10 +76,10 @@ export default function Pricing() {
     }
     setLoadingIndex(idx);
     try {
-      const res = await fetch('http://localhost:3001/api/create-checkout-session', {
+      const res = await fetch('http://localhost:3001/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan }),
+        body: JSON.stringify({ plan, customerEmail: user.email }),
       });
       const data = await res.json();
       if (data.url) {
