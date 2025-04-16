@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import { supabase } from '../../config/supabase';
 
 const tiers = [
   {
@@ -62,14 +63,20 @@ export default function Pricing() {
   const [loadingIndex, setLoadingIndex] = React.useState(null);
 
   const handleSubscribe = async (plan, idx) => {
+    // 检查登录状态
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+
     if (plan === 'free') {
-      // 跳转到注册或首页
       window.location.href = '/signup';
       return;
     }
     setLoadingIndex(idx);
     try {
-      const res = await fetch('http://localhost:3001/api/checkout', {
+      const res = await fetch('http://localhost:3001/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ plan }),
