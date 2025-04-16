@@ -5,7 +5,9 @@ export default function Cancel() {
   return (
     <div style={{ textAlign: 'center', marginTop: 100 }}>
       <h2>Payment Cancelled</h2>
-      <p>Your payment was not completed. You can try again at any time.</p>
+      <p>
+        Your payment was <span style={{ color: 'red', fontWeight: 900, fontSize: '1.5em' }}>NOT</span> completed. You can try again at any time.
+      </p>
       <Link to="/">
         <button
           style={{

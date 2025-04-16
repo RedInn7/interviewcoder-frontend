@@ -20,6 +20,7 @@ const tiers = [
     ],
     buttonText: 'Get Started',
     buttonVariant: 'contained',
+    plan: 'free',
   },
   {
     title: 'Crack With Code',
@@ -37,6 +38,7 @@ const tiers = [
     buttonText: 'Subscribe',
     buttonVariant: 'contained',
     featured: true,
+    plan: 'annual',
   },
   {
     title: 'Crack With Code',
@@ -52,10 +54,39 @@ const tiers = [
     ],
     buttonText: 'Subscribe',
     buttonVariant: 'contained',
+    plan: 'monthly',
   },
 ];
 
 export default function Pricing() {
+  const [loadingIndex, setLoadingIndex] = React.useState(null);
+
+  const handleSubscribe = async (plan, idx) => {
+    if (plan === 'free') {
+      // 跳转到注册或首页
+      window.location.href = '/signup';
+      return;
+    }
+    setLoadingIndex(idx);
+    try {
+      const res = await fetch('http://localhost:3001/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Failed to get payment link');
+      }
+    } catch (err) {
+      alert('Checkout failed: ' + err.message);
+    } finally {
+      setLoadingIndex(null);
+    }
+  };
+
   return (
     <Container
       id="pricing"
@@ -161,9 +192,9 @@ export default function Pricing() {
                 )}
               </Box>
               <Box sx={{ flexGrow: 1 }}>
-                {tier.description.map((line, index) => (
+                {tier.description.map((line, idx) => (
                   <Box
-                    key={index}
+                    key={idx}
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
@@ -189,8 +220,12 @@ export default function Pricing() {
                   },
                   py: 1.5,
                 }}
+                onClick={() => handleSubscribe(tier.plan, index)}
+                disabled={loadingIndex === index}
               >
-                {tier.buttonText} {tier.buttonText === 'Subscribe' && '→'}
+                {loadingIndex === index
+                  ? 'Redirecting...'
+                  : `${tier.buttonText}${tier.buttonText === 'Subscribe' ? ' →' : ''}`}
               </Button>
             </Card>
           </Grid>
