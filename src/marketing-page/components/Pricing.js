@@ -9,20 +9,7 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { supabase } from '../../config/supabase';
 
 const tiers = [
-  {
-    title: 'Crack With Code',
-    highlight: 'Free',
-    subtitle: 'Try it and see',
-    price: '0',
-    period: '/ month',
-    description: [
-      'Evaluate features',
-      'Normal agent models',
-    ],
-    buttonText: 'Get Started',
-    buttonVariant: 'contained',
-    plan: 'free',
-  },
+  
   {
     title: 'Crack With Code',
     highlight: 'Pro',
@@ -31,7 +18,7 @@ const tiers = [
     period: '/ month',
     yearlyPrice: '$240 billed annually',
     description: [
-      'Unlimited yearly usage',
+      'I used it to solve all Google code  questions',
       'Solving and debugging',
       'Most powerful agent models',
       '24/7 customer support',
