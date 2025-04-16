@@ -249,7 +249,7 @@ export default function Login() {
                   </svg>
                 </div>
                 <span className="gsi-material-button-contents">
-                  {loading ? '登录中...' : '使用 Google 账号登录'}
+                  {loading ? 'Signing in with Google...' : 'Sign in with Google'}
                 </span>
               </div>
             </GoogleButton>

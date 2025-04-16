@@ -63,7 +63,7 @@ export default function Pricing() {
   const [loadingIndex, setLoadingIndex] = React.useState(null);
 
   const handleSubscribe = async (plan, idx) => {
-    // 检查登录状态
+    // Check login status
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       window.location.href = '/login';
