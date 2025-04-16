@@ -79,7 +79,8 @@ export default function Pricing() {
       const res = await fetch('http://localhost:3001/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan, customerEmail: user.email }),
+        body: JSON.stringify({ plan: plan, 
+          email: user.email }),
       });
       const data = await res.json();
       if (data.url) {
