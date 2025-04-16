@@ -76,12 +76,9 @@ const GoogleButton = styled('button')({
   width: '100%',
   maxWidth: '400px',
   minWidth: 'min-content',
-  '& .gsi-material-button-icon': {
-    height: '20px',
-    marginRight: '12px',
-    minWidth: '20px',
-    width: '20px',
-  },
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   '& .gsi-material-button-content-wrapper': {
     alignItems: 'center',
     display: 'flex',
@@ -91,14 +88,26 @@ const GoogleButton = styled('button')({
     justifyContent: 'center',
     position: 'relative',
     width: '100%',
+    gap: 12,
+  },
+  '& .gsi-material-button-icon': {
+    height: '20px',
+    minWidth: '20px',
+    width: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 0,
   },
   '& .gsi-material-button-contents': {
-    flexGrow: 1,
+    flexGrow: 0,
     fontFamily: '"Roboto", arial, sans-serif',
     fontWeight: 500,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     verticalAlign: 'top',
+    textAlign: 'center',
+    fontSize: '16px',
   },
   '& .gsi-material-button-state': {
     transition: 'opacity .218s',
@@ -186,8 +195,7 @@ export default function SignUp() {
                     <path fill="none" d="M0 0h48v48H0z"></path>
                   </svg>
                 </div>
-                <span className="gsi-material-button-contents">使用 Google 账号注册</span>
-                <span style={{ display: 'none' }}>使用 Google 账号注册</span>
+                <span className="gsi-material-button-contents">Sign up with Google</span>
               </div>
             </GoogleButton>
 
