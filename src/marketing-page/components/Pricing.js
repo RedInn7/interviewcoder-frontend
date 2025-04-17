@@ -57,13 +57,10 @@ export default function Pricing() {
       return;
     }
 
-    if (plan === 'free') {
-      window.location.href = '/signup';
-      return;
-    }
+    
     setLoadingIndex(idx);
     try {
-      const res = await fetch('http://localhost:3001/api/checkout', {
+      const res = await fetch('https://crackcodeinterview.io/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ plan: plan, 
