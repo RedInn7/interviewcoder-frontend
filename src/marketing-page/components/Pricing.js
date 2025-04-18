@@ -14,9 +14,9 @@ const tiers = [
     title: 'Crack With Code',
     highlight: 'Pro',
     subtitle: 'Most popular',
-    price: '20',
+    price: '1',
     period: '/ month',
-    yearlyPrice: '$240 billed annually',
+    yearlyPrice: '$1 billed annually',
     description: [
       'I used it to solve all Google code  questions',
       'Solving and debugging',
@@ -32,7 +32,7 @@ const tiers = [
     title: 'Crack With Code',
     highlight: 'Pro',
     subtitle: 'Monthly subscription',
-    price: '30',
+    price: '0.5',
     period: '/ month',
     description: [
       'Unlimited monthly usage',
