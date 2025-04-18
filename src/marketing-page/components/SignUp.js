@@ -11,13 +11,13 @@ import AppAppBar from './AppAppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 
 // Styled components
-const StyledTextField = styled(TextField)({
+const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-root': {
-    color: 'white',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    color: theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.common.black,
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
     borderRadius: '8px',
     '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
     },
   },
   '& .MuiInputBase-input': {
@@ -25,16 +25,16 @@ const StyledTextField = styled(TextField)({
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: 'rgba(255, 255, 255, 0.1)',
+      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
     },
     '&:hover fieldset': {
-      borderColor: 'rgba(255, 255, 255, 0.2)',
+      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
     },
     '&.Mui-focused fieldset': {
-      borderColor: 'rgba(255, 255, 255, 0.3)',
+      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
     },
   },
-});
+}));
 
 const StyledButton = styled(Button)(({ theme, variant }) => ({
   borderRadius: '8px',
@@ -43,10 +43,10 @@ const StyledButton = styled(Button)(({ theme, variant }) => ({
   fontSize: '1rem',
   textTransform: 'none',
   ...(variant === 'contained' && {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    color: 'black',
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.9)' : theme.palette.primary.main,
+    color: theme.palette.mode === 'dark' ? 'black' : 'white',
     '&:hover': {
-      backgroundColor: 'white',
+      backgroundColor: theme.palette.mode === 'dark' ? 'white' : theme.palette.primary.dark,
     },
   }),
 }));
@@ -156,8 +156,6 @@ export default function SignUp() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            bgcolor: 'black',
-            color: 'white',
             py: 4,
           }}
         >
@@ -201,11 +199,11 @@ export default function SignUp() {
 
             {/* Divider */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Divider sx={{ flex: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
-              <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+              <Divider sx={{ flex: 1, borderColor: 'divider' }} />
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 OR CONTINUE WITH EMAIL
               </Typography>
-              <Divider sx={{ flex: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+              <Divider sx={{ flex: 1, borderColor: 'divider' }} />
             </Box>
 
             {/* Email & Password Fields */}
@@ -235,7 +233,7 @@ export default function SignUp() {
               variant="body2"
               sx={{
                 textAlign: 'center',
-                color: 'rgba(255, 255, 255, 0.7)',
+                color: 'text.secondary',
               }}
             >
               Already have an account?{' '}
@@ -243,7 +241,7 @@ export default function SignUp() {
                 component="a"
                 href="/login"
                 sx={{
-                  color: 'white',
+                  color: 'primary.main',
                   textDecoration: 'none',
                   '&:hover': {
                     textDecoration: 'underline',
