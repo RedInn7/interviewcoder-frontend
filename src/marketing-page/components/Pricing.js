@@ -15,7 +15,7 @@ const tiers = [
     highlight: 'Pro',
     subtitle: 'Most popular',
     price: '98',
-    period: '/ month',
+    period: '/ year',
     yearlyPrice: '$98 billed annually',
     description: [
       'I used it to solve all Google code  questions',
