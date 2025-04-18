@@ -187,17 +187,45 @@ export default function SignUp() {
     try {
       setLoading(true);
       setError(null);
-      const { error } = await supabase.auth.signUp({
+      
+      // 先尝试直接登录，如果账号不存在则创建新账号
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
-      // 注册成功后重定向到首页
+      if (signInError && signInError.message.includes('Invalid login credentials')) {
+        // 账号不存在，创建新账号
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}`,
+            data: {
+              email_confirmed: true
+            }
+          }
+        });
+
+        if (signUpError) throw signUpError;
+        
+        // 注册成功后，再次尝试登录
+        const { error: finalSignInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (finalSignInError) throw finalSignInError;
+      } else if (signInError) {
+        // 其他登录错误
+        throw signInError;
+      }
+
+      // 登录成功，重定向到首页
       navigate('/');
     } catch (error) {
       setError(error.message);
-      console.error('Error signing up with email:', error.message);
+      console.error('Error in signup process:', error.message);
     } finally {
       setLoading(false);
     }
