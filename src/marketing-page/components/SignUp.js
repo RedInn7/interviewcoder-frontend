@@ -9,6 +9,9 @@ import { styled } from '@mui/material/styles';
 import AppTheme from '../../shared-theme/AppTheme';
 import AppAppBar from './AppAppBar';
 import CssBaseline from '@mui/material/CssBaseline';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../config/supabase';
 
 // Styled components
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -147,6 +150,59 @@ const GoogleButton = styled('button')({
 });
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(null);
+
+  const handleGoogleSignUp = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`,
+        },
+      });
+      
+      if (error) throw error;
+    } catch (error) {
+      setError(error.message);
+      console.error('Error signing up with Google:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEmailSignUp = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      setError(null);
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+      // 注册成功后重定向到首页
+      navigate('/');
+    } catch (error) {
+      setError(error.message);
+      console.error('Error signing up with email:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AppTheme>
       <CssBaseline />
@@ -185,8 +241,18 @@ export default function SignUp() {
               </Typography>
             </Box>
 
+            {error && (
+              <Typography color="error" variant="body2" sx={{ textAlign: 'center' }}>
+                {error}
+              </Typography>
+            )}
+
             {/* Google Sign Up Button */}
-            <GoogleButton className="gsi-material-button">
+            <GoogleButton 
+              className="gsi-material-button"
+              onClick={handleGoogleSignUp}
+              disabled={loading}
+            >
               <div className="gsi-material-button-state"></div>
               <div className="gsi-material-button-content-wrapper">
                 <div className="gsi-material-button-icon">
@@ -198,7 +264,9 @@ export default function SignUp() {
                     <path fill="none" d="M0 0h48v48H0z"></path>
                   </svg>
                 </div>
-                <span className="gsi-material-button-contents">Sign up with Google</span>
+                <span className="gsi-material-button-contents">
+                  {loading ? 'Signing up with Google...' : 'Sign up with Google'}
+                </span>
               </div>
             </GoogleButton>
 
@@ -212,26 +280,46 @@ export default function SignUp() {
             </Box>
 
             {/* Email & Password Fields */}
-            <StyledTextField
-              fullWidth
-              placeholder="Email address"
-              type="email"
-            />
-            <StyledTextField
-              fullWidth
-              placeholder="Password"
-              type="password"
-            />
-            <StyledTextField
-              fullWidth
-              placeholder="Confirm password"
-              type="password"
-            />
+            <form onSubmit={handleEmailSignUp} style={{ width: '100%' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <StyledTextField
+                  fullWidth
+                  placeholder="Email address"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                  required
+                />
+                <StyledTextField
+                  fullWidth
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                  required
+                />
+                <StyledTextField
+                  fullWidth
+                  placeholder="Confirm password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={loading}
+                  required
+                />
 
-            {/* Sign Up Button */}
-            <StyledButton variant="contained">
-              Create account
-            </StyledButton>
+                {/* Sign Up Button */}
+                <StyledButton 
+                  variant="contained"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? 'Creating account...' : 'Create account'}
+                </StyledButton>
+              </Box>
+            </form>
 
             {/* Login Link */}
             <Typography
