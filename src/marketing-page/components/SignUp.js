@@ -13,25 +13,29 @@ import CssBaseline from '@mui/material/CssBaseline';
 // Styled components
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-root': {
-    color: theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.common.black,
-    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+    color: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: '8px',
     '&:hover': {
-      backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
     },
   },
   '& .MuiInputBase-input': {
     padding: '16px',
+    '&::placeholder': {
+      color: 'rgba(255, 255, 255, 0.5)',
+      opacity: 1,
+    },
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+      borderColor: 'rgba(255, 255, 255, 0.1)',
     },
     '&:hover fieldset': {
-      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+      borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     '&.Mui-focused fieldset': {
-      borderColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+      borderColor: 'rgba(255, 255, 255, 0.3)',
     },
   },
 }));
@@ -157,6 +161,7 @@ export default function SignUp() {
             alignItems: 'center',
             justifyContent: 'center',
             py: 4,
+            bgcolor: 'rgb(18, 18, 18)',
           }}
         >
           <Box

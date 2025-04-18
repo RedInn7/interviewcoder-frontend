@@ -183,7 +183,7 @@ export default function Login() {
 
       if (error) throw error;
       // 登录成功后重定向到仪表板
-      navigate('/dashboard');
+      navigate('https://crackcodeinterview.io/');
     } catch (error) {
       setError(error.message);
       console.error('Error logging in with email:', error.message);
