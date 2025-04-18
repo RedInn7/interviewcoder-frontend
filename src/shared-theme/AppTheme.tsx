@@ -40,6 +40,9 @@ export default function AppTheme(props: AppThemeProps) {
             ...surfacesCustomizations,
             ...themeComponents,
           },
+          palette: {
+            mode: 'dark', // Set default mode to dark
+          },
         });
   }, [disableCustomTheme, themeComponents]);
   if (disableCustomTheme) {
