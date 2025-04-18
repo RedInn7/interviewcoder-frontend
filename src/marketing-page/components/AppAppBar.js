@@ -12,7 +12,7 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import { supabase } from '../../config/supabase';
 import Menu from '@mui/material/Menu';
@@ -43,53 +43,58 @@ const scrollToSection = (sectionId) => {
 
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
-  const [user, setUser] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [user, setUser] = React.useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data?.user);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null);
-    });
-    return () => {
-      listener?.subscription.unsubscribe();
-    };
-  }, []);
 
-  const getInitials = (user) => {
-    if (!user) return '';
-    const name = user.user_metadata?.name;
-    if (name && name.length >= 2) {
-      return name.slice(0, 2).toUpperCase();
-    }
-    if (user.email) {
-      return user.email.slice(0, 2).toUpperCase();
-    }
-    return '';
-  };
+    return () => subscription.unsubscribe();
+  }, []);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
-  const handleNavClick = (sectionId) => {
-    scrollToSection(sectionId);
-    setOpen(false);
-  };
-
-  // 头像菜单相关
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     handleMenuClose();
   };
+
+  const getInitials = (user) => {
+    if (!user || !user.email) return '';
+    return user.email.substring(0, 2).toUpperCase();
+  };
+
+  const handleNavClick = (sectionId) => {
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      scrollToSection(sectionId);
+    }
+    setOpen(false);
+  };
+
+  React.useEffect(() => {
+    // Check if we have a section to scroll to from navigation
+    if (location.state?.scrollTo) {
+      scrollToSection(location.state.scrollTo);
+      // Clear the state after scrolling
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
 
   return (
     <AppBar
@@ -132,7 +137,7 @@ export default function AppAppBar() {
                 variant="text" 
                 color="info" 
                 size="small"
-                onClick={() => scrollToSection('successful-stories')}
+                onClick={() => handleNavClick('successful-stories')}
               >
                 Successful Stories
               </Button>
@@ -140,7 +145,7 @@ export default function AppAppBar() {
                 variant="text" 
                 color="info" 
                 size="small"
-                onClick={() => scrollToSection('highlights')}
+                onClick={() => handleNavClick('highlights')}
               >
                 Highlights
               </Button>
@@ -148,7 +153,7 @@ export default function AppAppBar() {
                 variant="text" 
                 color="info" 
                 size="small"
-                onClick={() => scrollToSection('pricing')}
+                onClick={() => handleNavClick('pricing')}
               >
                 Pricing
               </Button>
@@ -157,7 +162,7 @@ export default function AppAppBar() {
                 color="info" 
                 size="small" 
                 sx={{ minWidth: 0 }}
-                onClick={() => scrollToSection('faq')}
+                onClick={() => handleNavClick('faq')}
               >
                 FAQ
               </Button>
@@ -249,8 +254,7 @@ export default function AppAppBar() {
                     <CloseRoundedIcon />
                   </IconButton>
                 </Box>
-                <MenuItem onClick={() => handleNavClick('features')}>Features</MenuItem>
-                <MenuItem onClick={() => handleNavClick('testimonials')}>Testimonials</MenuItem>
+                <MenuItem onClick={() => handleNavClick('successful-stories')}>Successful Stories</MenuItem>
                 <MenuItem onClick={() => handleNavClick('highlights')}>Highlights</MenuItem>
                 <MenuItem onClick={() => handleNavClick('pricing')}>Pricing</MenuItem>
                 <MenuItem onClick={() => handleNavClick('faq')}>FAQ</MenuItem>
