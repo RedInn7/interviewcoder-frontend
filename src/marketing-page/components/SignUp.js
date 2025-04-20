@@ -202,7 +202,7 @@ export default function SignUp() {
           options: {
             emailRedirectTo: `${window.location.origin}`,
             data: {
-              email_confirmed: true
+              email_confirmed: false
             }
           }
         });
@@ -245,7 +245,7 @@ export default function SignUp() {
             alignItems: 'center',
             justifyContent: 'center',
             py: 4,
-            bgcolor: 'rgb(18, 18, 18)',
+
           }}
         >
           <Box
