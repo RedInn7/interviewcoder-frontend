@@ -1,0 +1,182 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import LockIcon from '@mui/icons-material/Lock';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AppAppBar from './AppAppBar';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../config/supabase';
+
+export default function SettingsPage() {
+  const navigate = useNavigate();
+  const [user, setUser] = React.useState(null);
+  const [activeTab, setActiveTab] = React.useState('account'); // 'account' or 'billing'
+
+  React.useEffect(() => {
+    // Check if user is authenticated
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        navigate('/login');
+      } else {
+        setUser(session.user);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  if (!user) {
+    return null;
+  }
+
+  const AccountContent = () => (
+    <Box sx={{ mb: 6 }}>
+      <Typography variant="h4" sx={{ mb: 4 }}>
+        Account Details
+      </Typography>
+      <Stack spacing={3}>
+        <Box>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            Email
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              p: 2,
+              borderRadius: 1,
+              bgcolor: 'rgba(255, 255, 255, 0.05)',
+            }}
+          >
+            {user?.email}
+          </Typography>
+        </Box>
+        
+        <Stack spacing={2}>
+          <Button
+            startIcon={<LockIcon />}
+            variant="text"
+            sx={{
+              justifyContent: 'flex-start',
+              color: 'text.secondary',
+              '&:hover': {
+                color: 'text.primary',
+              },
+            }}
+          >
+            Change Password
+          </Button>
+          <Button
+            startIcon={<DeleteIcon />}
+            variant="text"
+            sx={{
+              justifyContent: 'flex-start',
+              color: '#f44336',
+              '&:hover': {
+                color: '#d32f2f',
+              },
+            }}
+          >
+            Delete Account
+          </Button>
+        </Stack>
+      </Stack>
+    </Box>
+  );
+
+  const BillingContent = () => (
+    <Box>
+      <Typography variant="h4" sx={{ mb: 2 }}>
+        Subscription Plan
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
+        Choose a plan to access all features.
+      </Typography>
+      
+      <Box
+        sx={{
+          p: 4,
+          borderRadius: 2,
+          bgcolor: 'rgba(255, 255, 255, 0.05)',
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          No Active Subscription
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          Subscribe now to get access to all features
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: '#fae20a',
+            color: 'black',
+            '&:hover': {
+              bgcolor: '#fae20a',
+            },
+            px: 3,
+            py: 1,
+            borderRadius: 2,
+          }}
+        >
+          Subscribe
+        </Button>
+      </Box>
+    </Box>
+  );
+
+  return (
+    <>
+      <AppAppBar />
+      <Container maxWidth="lg" sx={{ py: 4, mt: 8 }}>
+        <Box sx={{ display: 'flex', gap: 4 }}>
+          {/* Left Sidebar */}
+          <Stack spacing={1} sx={{ minWidth: 200 }}>
+            <Typography
+              variant="button"
+              component="div"
+              onClick={() => setActiveTab('account')}
+              sx={{
+                p: 2,
+                borderRadius: 1,
+                bgcolor: activeTab === 'account' ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                color: activeTab === 'account' ? 'white' : 'rgba(255, 255, 255, 0.7)',
+                cursor: 'pointer',
+                '&:hover': {
+                  bgcolor: activeTab === 'account' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+                },
+              }}
+            >
+              Account
+            </Typography>
+            <Typography
+              variant="button"
+              component="div"
+              onClick={() => setActiveTab('billing')}
+              sx={{
+                p: 2,
+                borderRadius: 1,
+                bgcolor: activeTab === 'billing' ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                color: activeTab === 'billing' ? 'white' : 'rgba(255, 255, 255, 0.7)',
+                cursor: 'pointer',
+                '&:hover': {
+                  bgcolor: activeTab === 'billing' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+                },
+              }}
+            >
+              Billing
+            </Typography>
+          </Stack>
+
+          {/* Main Content */}
+          <Box sx={{ flex: 1 }}>
+            {activeTab === 'account' ? <AccountContent /> : <BillingContent />}
+          </Box>
+        </Box>
+      </Container>
+    </>
+  );
+} 

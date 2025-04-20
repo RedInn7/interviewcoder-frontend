@@ -11,6 +11,7 @@ import AppTheme from './shared-theme/AppTheme';
 import CssBaseline from '@mui/material/CssBaseline';
 import Success from './marketing-page/components/Success';
 import Cancel from './marketing-page/components/Cancel';
+import SettingsPage from './marketing-page/components/SettingsPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,6 +26,7 @@ root.render(
             <Route path="/signup" element={<SignUp />} />
             <Route path="/success" element={<Success />} />
             <Route path="/cancel" element={<Cancel />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </BrowserRouter>
       </AppTheme>

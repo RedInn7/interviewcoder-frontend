@@ -217,7 +217,13 @@ export default function AppAppBar() {
                   anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                 >
-                  <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+                  <MenuItem 
+                    component={Link} 
+                    to="/settings"
+                    onClick={handleMenuClose}
+                  >
+                    Settings
+                  </MenuItem>
                   <MenuItem onClick={handleMenuClose}>Help</MenuItem>
                   <Divider />
                   <MenuItem onClick={handleLogout}>
