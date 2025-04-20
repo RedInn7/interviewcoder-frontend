@@ -9,11 +9,95 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AppAppBar from './AppAppBar';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../config/supabase';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
+
+const PasswordChangeDialog = React.memo(({
+  open,
+  onClose,
+  onSubmit,
+  error,
+  success,
+  newPassword,
+  setNewPassword,
+  confirmPassword,
+  setConfirmPassword
+}) => (
+  <Dialog 
+    open={open} 
+    onClose={onClose}
+    maxWidth="sm"
+    fullWidth
+  >
+    <DialogTitle>Change Password</DialogTitle>
+    <DialogContent>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          Password updated successfully!
+        </Alert>
+      )}
+      <Box sx={{ mt: 2 }}>
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          New Password
+        </Typography>
+        <TextField
+          fullWidth
+          type="password"
+          placeholder="Enter new password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          sx={{ mb: 3 }}
+        />
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          Confirm New Password
+        </Typography>
+        <TextField
+          fullWidth
+          type="password"
+          placeholder="Confirm new password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </Box>
+    </DialogContent>
+    <DialogActions sx={{ p: 3 }}>
+      <Button 
+        onClick={onClose}
+        variant="outlined"
+        color="primary"
+      >
+        Cancel
+      </Button>
+      <Button 
+        onClick={onSubmit}
+        variant="contained"
+        color="primary"
+        disabled={success}
+      >
+        Change Password
+      </Button>
+    </DialogActions>
+  </Dialog>
+));
 
 export default function SettingsPage() {
   const navigate = useNavigate();
   const [user, setUser] = React.useState(null);
   const [activeTab, setActiveTab] = React.useState('account'); // 'account' or 'billing'
+  const [openPasswordDialog, setOpenPasswordDialog] = React.useState(false);
+  const [newPassword, setNewPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [success, setSuccess] = React.useState(false);
 
   React.useEffect(() => {
     // Check if user is authenticated
@@ -27,6 +111,57 @@ export default function SettingsPage() {
 
     return () => subscription.unsubscribe();
   }, [navigate]);
+
+  const handlePasswordChange = async () => {
+    try {
+      setError('');
+      setSuccess(false);
+
+      // Validate passwords
+      if (!newPassword || !confirmPassword) {
+        setError('Please fill in all fields');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        setError('Passwords do not match');
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        setError('Password must be at least 6 characters long');
+        return;
+      }
+
+      // Update password using Supabase
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) throw error;
+
+      setSuccess(true);
+      setNewPassword('');
+      setConfirmPassword('');
+      
+      // Close dialog after 2 seconds on success
+      setTimeout(() => {
+        setOpenPasswordDialog(false);
+        setSuccess(false);
+      }, 2000);
+
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleClosePasswordDialog = () => {
+    setOpenPasswordDialog(false);
+    setError('');
+    setSuccess(false);
+    setNewPassword('');
+    setConfirmPassword('');
+  };
 
   if (!user) {
     return null;
@@ -58,6 +193,7 @@ export default function SettingsPage() {
           <Button
             startIcon={<LockIcon />}
             variant="text"
+            onClick={() => setOpenPasswordDialog(true)}
             sx={{
               justifyContent: 'flex-start',
               color: 'text.secondary',
@@ -111,6 +247,9 @@ export default function SettingsPage() {
         </Typography>
         <Button
           variant="contained"
+          onClick={() => {
+            navigate('/?scrollTo=pricing');
+          }}
           sx={{
             bgcolor: '#fae20a',
             color: 'black',
@@ -177,6 +316,17 @@ export default function SettingsPage() {
           </Box>
         </Box>
       </Container>
+      <PasswordChangeDialog 
+        open={openPasswordDialog}
+        onClose={handleClosePasswordDialog}
+        onSubmit={handlePasswordChange}
+        error={error}
+        success={success}
+        newPassword={newPassword}
+        setNewPassword={setNewPassword}
+        confirmPassword={confirmPassword}
+        setConfirmPassword={setConfirmPassword}
+      />
     </>
   );
 } 
